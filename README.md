@@ -1,2 +1,2 @@
 # GRJ
-Tern base Rpg and Guild management Game
+Turn-Based RPG and Guild Management Game
