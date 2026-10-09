@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "TempActor.generated.h"
 
+class UBattleManager;
 class AGRJCharacterBase;
 
 UCLASS()
@@ -27,6 +28,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY()
+	TObjectPtr<UBattleManager> BattleManager;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

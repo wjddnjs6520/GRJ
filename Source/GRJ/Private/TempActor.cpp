@@ -3,6 +3,8 @@
 
 #include "TempActor.h"
 
+#include "Battle/BattleManager.h"
+
 // Sets default values
 ATempActor::ATempActor()
 {
@@ -15,7 +17,10 @@ ATempActor::ATempActor()
 void ATempActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	BattleManager = NewObject<UBattleManager>(this);
+	BattleManager->TempActor = this;
+	BattleManager->BattleStart();
 }
 
 // Called every frame

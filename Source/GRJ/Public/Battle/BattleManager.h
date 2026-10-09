@@ -27,6 +27,14 @@ public:
 	void NextTurn();
 
 	AGRJCharacterBase* CurrentTurnCharacter();
+
+	AGRJCharacterBase* EnemyCharacter(int32 TargetNum);
+
+	int32 GetEnemyCount() const;
+
+	int32 GetPlayerCount() const;
+
+	
 	
 private:
 	void StartTurn();

@@ -13,6 +13,7 @@ UBattleManager::UBattleManager()
 
 void UBattleManager::BattleStart()
 {
+	if (!TempActor) return;
 	
 	PlayerCharacters = TempActor->PlayerTeam;
 	EnemyCharacters = TempActor->EnemyTeam;
@@ -30,15 +31,26 @@ void UBattleManager::BattleStart()
 
 void UBattleManager::StartTurn()
 {
-	if (CurrentTurnIndex < TurnOrder.Num())
+	if (CheckEndBattle())
 	{
-		if (CheckEndBattle())
-		{
-			BattleEnd();
-		}
+		BattleEnd();
+		return;
 	}
 
-	// 캐릭터에게 현재 턴인거 알려주기
+	if (CurrentTurnIndex >= TurnOrder.Num())
+	{
+		MakeTurnOder();
+	}
+
+	AGRJCharacterBase* Character = CurrentTurnCharacter();
+
+	if (!Character)
+	{
+		return;
+	}
+
+	Character->SetCurrentBattleManager(this);
+	Character->StartCharacterTurn();
 	
 }
 
@@ -59,6 +71,25 @@ AGRJCharacterBase* UBattleManager::CurrentTurnCharacter()
 	return TurnOrder[CurrentTurnIndex];
 }
 
+AGRJCharacterBase* UBattleManager::EnemyCharacter(int32 TargetNum)
+{
+	if (TargetNum < 0 || TargetNum >= EnemyCharacters.Num())
+	{
+		return nullptr;
+	}
+	return EnemyCharacters[TargetNum];
+}
+
+int32 UBattleManager::GetEnemyCount() const
+{
+	return EnemyCharacters.Num();
+}
+
+int32 UBattleManager::GetPlayerCount() const
+{
+	return PlayerCharacters.Num();
+}
+
 void UBattleManager::MakeTurnOder()
 {
 	TurnOrder.Empty();
@@ -66,7 +97,7 @@ void UBattleManager::MakeTurnOder()
 	TurnOrder.Append(PlayerCharacters);
 	TurnOrder.Append(EnemyCharacters);
 
-	TurnOrder.Sort([](const AGRJCharacterBase& A, AGRJCharacterBase& B)
+	TurnOrder.Sort([](const AGRJCharacterBase& A, const AGRJCharacterBase& B)
 	{
 		return A.GetSpeed() > B.GetSpeed();
 	});
