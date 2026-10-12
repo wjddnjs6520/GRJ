@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "Engine/DataAsset.h"
 #include "SkillBase.generated.h"
 
 UENUM(Blueprintable)
@@ -22,8 +22,8 @@ enum class ESkillTargetType : uint8
 /**
  * 
  */
-UCLASS()
-class GRJ_API USkillBase : public UObject
+UCLASS(BlueprintType)
+class GRJ_API USkillBase : public UDataAsset
 {
 	GENERATED_BODY()
 	
@@ -39,14 +39,17 @@ public:
 protected:
 
 	//사용 자원
+	UPROPERTY(EditDefaultsOnly, Category = "Skill|Cost")
 	int32 MPCost = 0;
-
+	UPROPERTY(EditDefaultsOnly, Category = "Skill|Cost")
 	int32 APCost = 1;
 
 	//적용 수치
+	UPROPERTY(EditDefaultsOnly, Category = "Skill|Value")
 	float SkillValue = 10.0f;
 
 	//대상 종류
+	UPROPERTY(EditDefaultsOnly, Category = "Skill|TargetType")
 	ESkillTargetType TargetType = ESkillTargetType::SingleEnemy;
 	
 	
