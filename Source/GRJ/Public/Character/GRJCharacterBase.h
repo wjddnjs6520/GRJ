@@ -50,21 +50,35 @@ protected:
     virtual void BeginPlay() override;
 
     // Stats
+    UPROPERTY(VisibleAnywhere)
     float MaxHP = 100.0f;
+
+    UPROPERTY(VisibleAnywhere)
     float CurrentHP = 100.0f;
+
+    UPROPERTY(VisibleAnywhere)
     int32 MP = 50;
 
+    UPROPERTY(VisibleAnywhere)
     float Attack = 10.0f;
+    
+    UPROPERTY(VisibleAnywhere)
     float Defense = 10.0f;
 
+    UPROPERTY(VisibleAnywhere)
     int32 AP = 3;
 
+    UPROPERTY(VisibleAnywhere)
     float Speed = 10.0f;
 
+    UPROPERTY(VisibleAnywhere)
     float Evasion = 0.0f;
+    UPROPERTY(VisibleAnywhere)
     float Shield = 0.0f;
 
+    UPROPERTY(VisibleAnywhere)
     float Critical = 0.0f;
+    UPROPERTY(VisibleAnywhere)
     float CriticalDamage = 150.0f;
 
     UPROPERTY()
