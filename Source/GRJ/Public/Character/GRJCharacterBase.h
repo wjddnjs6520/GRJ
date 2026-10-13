@@ -33,6 +33,8 @@ public:
     void ApplyDamage(float Damage);
     void SetMP(int32 NewMP);
     void SetAP(int32 NewAP);
+
+    void UseAP(int32 UseNum);
     
     TArray<TObjectPtr<USkillBase>> GetSkills() const;
     

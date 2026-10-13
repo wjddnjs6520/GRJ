@@ -106,13 +106,16 @@ void AGRJCharacterBase::SetMP(int32 NewMP)
 
 void AGRJCharacterBase::SetAP(int32 NewAP)
 {
-	if (AP - NewAP <= 0.0f)
+	AP = NewAP;
+}
+
+void AGRJCharacterBase::UseAP(int32 UseNum)
+{
+	AP = AP - UseNum;
+
+	if (AP < 0)
 	{
-		AP = 0.0f;
-	}
-	else
-	{
-		AP = AP - NewAP;
+		AP = 0;
 	}
 }
 
