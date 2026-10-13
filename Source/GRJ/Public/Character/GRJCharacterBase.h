@@ -39,10 +39,13 @@ public:
     void SetMP(int32 NewMP);
     void SetAP(int32 NewAP);
 
+    UFUNCTION(BlueprintCallable)
     void SelectSkill(int32 SkillNum);
 
+    UFUNCTION(BlueprintCallable)
     void SetTargetNum(int32 TargetNum);
 
+    UFUNCTION(BlueprintCallable)
     void ConfirmSkill();
     
 protected:
@@ -97,7 +100,7 @@ protected:
     int32 CurrentSelectSkillNum = 0;
     int32 CurrentTargetNum = 0;
     
-    UPROPERTY()
+    UPROPERTY(EditDefaultsOnly, Category = "Skills")
     TArray<TObjectPtr<USkillBase>> Skills;
     
 public:
