@@ -26,6 +26,7 @@ public:
 	
 	void NextTurn();
 
+	UFUNCTION(BlueprintCallable)
 	AGRJCharacterBase* CurrentTurnCharacter();
 
 	AGRJCharacterBase* EnemyCharacter(int32 TargetNum);
