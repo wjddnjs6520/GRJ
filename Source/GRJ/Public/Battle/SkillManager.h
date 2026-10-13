@@ -12,7 +12,7 @@ class AGRJCharacterBase;
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class GRJ_API USkillManager : public UObject
 {
 	GENERATED_BODY()
@@ -31,11 +31,17 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ConfirmSkill();
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetSkillNum();
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetTargetNum();
 	
 private:
 	
 	UFUNCTION()
-	void UseAPSkill(int32 SkillNum);
+	void UseAPSkill();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character")
 	AGRJCharacterBase* CurrentTurnCharacter = nullptr;
