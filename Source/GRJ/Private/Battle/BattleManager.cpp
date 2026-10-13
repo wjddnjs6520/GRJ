@@ -7,10 +7,6 @@
 UBattleManager::UBattleManager()
 {
     UE_LOG(LogTemp, Log, TEXT("[BattleManager] 생성"));
-
-    //턴제 전투 스킬 사용 매니저 추가
-    CurrentSkillManager = NewObject<USkillManager>(this);
-    CurrentSkillManager->SettingBattleManager(this);
     
 }
 
@@ -37,6 +33,10 @@ void UBattleManager::BattleStart()
         BattleEnd();
         return;
     }
+
+    //턴제 전투 스킬 사용 매니저 추가
+    CurrentSkillManager = NewObject<USkillManager>(this);
+    CurrentSkillManager->SettingBattleManager(this);
 
     MakeTurnOder();
     StartTurn();
@@ -99,6 +99,11 @@ AGRJCharacterBase* UBattleManager::CurrentTurnCharacter()
     }
 
     return TurnOrder[CurrentTurnIndex];
+}
+
+USkillManager* UBattleManager::GetSkillManager()
+{
+    return CurrentSkillManager;
 }
 
 AGRJCharacterBase* UBattleManager::EnemyCharacter(int32 TargetNum)
@@ -197,6 +202,7 @@ void UBattleManager::BattleEnd()
     EnemyCharacters.Empty();
     TurnOrder.Empty();
     CurrentTurnIndex = 0;
-
+    CurrentSkillManager = nullptr;
+    
     UE_LOG(LogTemp, Log, TEXT("[BattleManager] 전투 데이터 초기화 완료"));
 }

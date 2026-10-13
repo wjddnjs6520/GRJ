@@ -12,7 +12,7 @@ class ATempActor;
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class GRJ_API UBattleManager : public UObject
 {
 	GENERATED_BODY()
@@ -30,11 +30,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 	AGRJCharacterBase* CurrentTurnCharacter();
 
+	UFUNCTION(BlueprintCallable)
+	USkillManager* GetSkillManager();
+	
 	AGRJCharacterBase* EnemyCharacter(int32 TargetNum);
 
 	int32 GetEnemyCount() const;
 
 	int32 GetPlayerCount() const;	
+
+protected:
+	UPROPERTY(BlueprintReadWrite)
+	TObjectPtr<USkillManager> CurrentSkillManager;
 	
 private:
 	void StartTurn();
@@ -53,8 +60,7 @@ private:
 	UPROPERTY()
 	TArray<AGRJCharacterBase*> TurnOrder;
 
-	UPROPERTY()
-	TObjectPtr<USkillManager> CurrentSkillManager;
+
 	
 	UPROPERTY()
 	int32 CurrentTurnIndex = 0;
