@@ -165,3 +165,8 @@ void USkillManager::UseAPSkill()
 		BattleManager->NextTurn();
 	}
 }
+
+void USkillManager::TargetCheck()
+{
+	SelectTargetNum(TargetNum);
+}

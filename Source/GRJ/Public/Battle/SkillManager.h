@@ -37,12 +37,14 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetTargetNum();
+
+	void TargetCheck();
 	
 private:
 	
 	UFUNCTION()
 	void UseAPSkill();
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Character")
 	AGRJCharacterBase* CurrentTurnCharacter = nullptr;
 	
