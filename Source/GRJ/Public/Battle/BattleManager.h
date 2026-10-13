@@ -6,6 +6,7 @@
 #include "UObject/NoExportTypes.h"
 #include "BattleManager.generated.h"
 
+class USkillManager;
 class AGRJCharacterBase;
 class ATempActor;
 /**
@@ -33,13 +34,10 @@ public:
 
 	int32 GetEnemyCount() const;
 
-	int32 GetPlayerCount() const;
-
-	
+	int32 GetPlayerCount() const;	
 	
 private:
 	void StartTurn();
-	
 	
 	void MakeTurnOder();
 	
@@ -55,8 +53,12 @@ private:
 	UPROPERTY()
 	TArray<AGRJCharacterBase*> TurnOrder;
 
-	
+	UPROPERTY()
+	TObjectPtr<USkillManager> CurrentSkillManager;
 	
 	UPROPERTY()
 	int32 CurrentTurnIndex = 0;
+
+	UPROPERTY()
+	int32 CurrentRoundNum = 1;
 };

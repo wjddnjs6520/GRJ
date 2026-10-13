@@ -1,11 +1,17 @@
 #include "Battle/BattleManager.h"
 
 #include "TempActor.h"
+#include "Battle/SkillManager.h"
 #include "Character/GRJCharacterBase.h"
 
 UBattleManager::UBattleManager()
 {
     UE_LOG(LogTemp, Log, TEXT("[BattleManager] 생성"));
+
+    //턴제 전투 스킬 사용 매니저 추가
+    CurrentSkillManager = NewObject<USkillManager>(this);
+    CurrentSkillManager->SettingBattleManager(this);
+    
 }
 
 void UBattleManager::BattleStart()
