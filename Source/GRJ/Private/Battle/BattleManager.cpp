@@ -23,6 +23,25 @@ void UBattleManager::BattleStart()
     PlayerCharacters = TempActor->PlayerTeam;
     EnemyCharacters = TempActor->EnemyTeam;
 
+    //사망 델리게이트 구독
+    for (AGRJCharacterBase* Character : PlayerCharacters)
+    {
+        if (IsValid(Character))
+        {
+            Character->OnCharacterEliminated.AddDynamic(
+                this, &UBattleManager::HandleCharacterEliminate);
+        }
+    }
+
+    for (AGRJCharacterBase* Character : EnemyCharacters)
+    {
+        if (IsValid(Character))
+        {
+            Character->OnCharacterEliminated.AddDynamic(
+                this, &UBattleManager::HandleCharacterEliminate);
+        }
+    }
+    
     UE_LOG(LogTemp, Log,
         TEXT("[BattleManager] 전투 참여자 설정 - Player: %d, Enemy: %d"),
         PlayerCharacters.Num(), EnemyCharacters.Num());
@@ -82,6 +101,11 @@ void UBattleManager::NextTurn()
         TEXT("[BattleManager] NextTurn 호출 - 이전 Index: %d"),
         CurrentTurnIndex);
 
+    if (CheckEndBattle())
+    {
+        return;
+    }
+    
     CurrentTurnIndex++;
 
     StartTurn();
@@ -205,4 +229,28 @@ void UBattleManager::BattleEnd()
     CurrentSkillManager = nullptr;
     
     UE_LOG(LogTemp, Log, TEXT("[BattleManager] 전투 데이터 초기화 완료"));
+}
+
+void UBattleManager::HandleCharacterEliminate(AGRJCharacterBase* EliminateCharacter)
+{
+    UE_LOG(LogTemp, Warning, TEXT("[BattleManager] HandleCharacterEliminate 호출"));
+    if (!IsValid(EliminateCharacter)) return;
+
+    EliminateCharacter->OnCharacterEliminated.RemoveAll(this);
+
+    PlayerCharacters.Remove(EliminateCharacter);
+    EnemyCharacters.Remove(EliminateCharacter);
+
+    TurnOrder.Remove(EliminateCharacter);
+
+    if (CheckEndBattle())
+    {
+        BattleEnd();
+        return;
+    }
+
+    if (IsValid(CurrentSkillManager))
+    {
+        CurrentSkillManager->TargetCheck();    
+    }
 }

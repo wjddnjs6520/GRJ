@@ -51,6 +51,9 @@ private:
 	bool CheckEndBattle();
 	void BattleEnd();
 
+	UFUNCTION()
+	void HandleCharacterEliminate(AGRJCharacterBase* EliminateCharacter);
+	
 	UPROPERTY()
 	TArray<AGRJCharacterBase*> PlayerCharacters;
 
