@@ -6,8 +6,11 @@
 #include "GameFramework/Character.h"
 #include "GRJCharacterBase.generated.h"
 
+
 class USkillBase;
-class UBattleManager;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCharacterEliminated, class AGRJCharacterBase*, EliminateCharacter);
+
 
 UCLASS()
 class GRJ_API AGRJCharacterBase : public ACharacter
@@ -18,8 +21,9 @@ public:
     // Sets default values for this character's properties
     AGRJCharacterBase();
 
-    float GetSpeed() const;
 
+    //스텟 전달 함수
+    float GetSpeed() const;
     float GetCurrentHP() const;
     float GetMP() const;
     float GetAttack() const;
@@ -30,18 +34,23 @@ public:
     float GetCritical() const;
     float GetCriticalDamage() const;
 
+    //스텟 설정 함수
     void ApplyDamage(float Damage);
     void SetMP(int32 NewMP);
     void SetAP(int32 NewAP);
-
     void UseAP(int32 UseNum);
     
     TArray<TObjectPtr<USkillBase>> GetSkills() const;
+    
+    UPROPERTY(BlueprintAssignable, Category = "Events")
+    FOnCharacterEliminated OnCharacterEliminated;
     
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
 
+    void CharacterDead();
+    
     // Stats
     UPROPERTY(VisibleAnywhere)
     float MaxHP = 100.0f;

@@ -3,7 +3,6 @@
 
 #include "Character/GRJCharacterBase.h"
 
-#include "Battle/BattleManager.h"
 #include "Skill/SkillBase.h"
 
 // Sets default values
@@ -86,9 +85,19 @@ void AGRJCharacterBase::BeginPlay()
 	
 }
 
+void AGRJCharacterBase::CharacterDead()
+{
+	OnCharacterEliminated.Broadcast(this);
+}
+
 void AGRJCharacterBase::ApplyDamage(float Damage)
 {
 	CurrentHP = FMath::Clamp(CurrentHP - Damage, 0.0f, MaxHP);
+
+	if (CurrentHP <= 0.0f)
+	{
+		CharacterDead();
+	}	
 }
 
 
