@@ -73,6 +73,21 @@ void AGRJCharacterBase::SetCurrentBattleManager(UBattleManager* InitBattleManage
 void AGRJCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UE_LOG(LogTemp, Log, TEXT("등록된 스킬 개수: %d"), Skills.Num());
+
+	for (int32 i = 0; i < Skills.Num(); i++)
+	{
+		if (Skills[i])
+		{
+			UE_LOG(LogTemp, Log, TEXT("스킬 [%d]: %s"),
+				i, *Skills[i]->GetName());
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("스킬 [%d]가 nullptr입니다."), i);
+		}
+	}
 	
 }
 
