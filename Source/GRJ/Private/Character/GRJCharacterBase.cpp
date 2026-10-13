@@ -64,11 +64,6 @@ float AGRJCharacterBase::GetCriticalDamage() const
 	return CriticalDamage;
 }
 
-void AGRJCharacterBase::SetCurrentBattleManager(UBattleManager* InitBattleManager)
-{
-	CurrentBattleManager = InitBattleManager;
-}
-
 // Called when the game starts or when spawned
 void AGRJCharacterBase::BeginPlay()
 {
@@ -88,62 +83,6 @@ void AGRJCharacterBase::BeginPlay()
 			UE_LOG(LogTemp, Warning, TEXT("스킬 [%d]가 nullptr입니다."), i);
 		}
 	}
-	
-}
-
-void AGRJCharacterBase::UseAPSkill(int32 SkillNum)
-{
-	if (!bIsMyTurn || !CurrentBattleManager) return;
-
-	if (!Skills.IsValidIndex(SkillNum)) return;
-
-	if (AP <= 0)
-	{
-		EndCharacterTurn();
-		return;
-	}
-
-	USkillBase* SelectSkill = Skills[SkillNum].Get();
-
-	if (!SelectSkill) return;
-
-	const int32 APCost = SelectSkill->GetAPCost();
-
-	if (AP < APCost)
-	{
-		return;
-	}
-
-	if (CurrentTargetNum < 0 || CurrentTargetNum >= CurrentBattleManager->GetEnemyCount())
-	{
-		return;
-	}
-
-	AGRJCharacterBase* Target = CurrentBattleManager->EnemyCharacter(CurrentTargetNum);
-
-	if (!Target) return;
-
-	Target->ApplyDamage(SelectSkill->GetSkillValue());
-
-	AP -= APCost;
-
-	if (AP <= 0)
-	{
-		EndCharacterTurn();
-	}
-	
-}
-
-void AGRJCharacterBase::StartCharacterTurn()
-{
-	if (CurrentHP <= 0.0f)
-	{
-		EndCharacterTurn();
-		return;
-	}
-	
-	bIsMyTurn = true;
-	
 	
 }
 
@@ -177,45 +116,9 @@ void AGRJCharacterBase::SetAP(int32 NewAP)
 	}
 }
 
-void AGRJCharacterBase::SelectSkill(int32 SkillNum)
+TArray<TObjectPtr<USkillBase>> AGRJCharacterBase::GetSkills() const
 {
-	if (!bIsMyTurn) return;
-	
-	if (!Skills.IsValidIndex(SkillNum))
-	{
-		return;
-	}
-
-	CurrentSelectSkillNum = SkillNum;
-}
-
-void AGRJCharacterBase::SetTargetNum(int32 TargetNum)
-{
-	if (!bIsMyTurn || !CurrentBattleManager) return;
-
-	if (TargetNum < 0 || TargetNum >= CurrentBattleManager->GetEnemyCount())
-	{
-		return;
-	}
-
-	CurrentTargetNum = TargetNum;
-}
-
-void AGRJCharacterBase::ConfirmSkill()
-{
-	if (!bIsMyTurn) return;
-
-	UseAPSkill(CurrentSelectSkillNum);
-}
-
-void AGRJCharacterBase::EndCharacterTurn()
-{
-	bIsMyTurn = false;
-
-	if (CurrentBattleManager)
-	{
-		CurrentBattleManager->NextTurn();
-	}
+	return Skills;
 }
 
 // Called every frame

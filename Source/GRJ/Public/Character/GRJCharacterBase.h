@@ -30,23 +30,11 @@ public:
     float GetCritical() const;
     float GetCriticalDamage() const;
 
-    void SetCurrentBattleManager(UBattleManager* InitBattleManager);
-    
-    UFUNCTION()
-    void StartCharacterTurn();
-
     void ApplyDamage(float Damage);
     void SetMP(int32 NewMP);
     void SetAP(int32 NewAP);
-
-    UFUNCTION(BlueprintCallable)
-    void SelectSkill(int32 SkillNum);
-
-    UFUNCTION(BlueprintCallable)
-    void SetTargetNum(int32 TargetNum);
-
-    UFUNCTION(BlueprintCallable)
-    void ConfirmSkill();
+    
+    TArray<TObjectPtr<USkillBase>> GetSkills() const;
     
 protected:
     // Called when the game starts or when spawned
@@ -83,22 +71,6 @@ protected:
     float Critical = 0.0f;
     UPROPERTY(VisibleAnywhere)
     float CriticalDamage = 150.0f;
-
-    UPROPERTY()
-    UBattleManager* CurrentBattleManager = nullptr;
-
-    
-    
-    UFUNCTION()
-    void UseAPSkill(int32 SkillNum);
-    
-    UFUNCTION()
-    void EndCharacterTurn();
-
-    bool bIsMyTurn = false;
-
-    int32 CurrentSelectSkillNum = 0;
-    int32 CurrentTargetNum = 0;
     
     UPROPERTY(EditDefaultsOnly, Category = "Skills")
     TArray<TObjectPtr<USkillBase>> Skills;

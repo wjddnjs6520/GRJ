@@ -73,8 +73,7 @@ void UBattleManager::StartTurn()
         TEXT("[BattleManager] 턴 시작 캐릭터: %s"),
         *Character->GetName());
 
-    Character->SetCurrentBattleManager(this);
-    Character->StartCharacterTurn();
+    CurrentSkillManager->StartCharacterTurn(Character);
 }
 
 void UBattleManager::NextTurn()
